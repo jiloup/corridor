@@ -10,12 +10,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.graphics.g3d.model.Node;
+import com.badlogic.gdx.graphics.g3d.model.data.ModelData;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.TextureProvider;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class MyGdxGame implements ApplicationListener {
@@ -29,8 +33,6 @@ public class MyGdxGame implements ApplicationListener {
 	public ModelBatch modelBatch;
 	public Model model;
 
-
-	public AssetManager assets;
 	public Array<ModelInstance> instances = new Array<ModelInstance>();
 
 	public boolean loading;
@@ -57,31 +59,13 @@ public class MyGdxGame implements ApplicationListener {
 		cam.far = 300f;
 		cam.update();
 
-		/*
-		ModelLoader loader = new ObjLoader();
-		model = loader.loadModel(Gdx.files.internal("loadmodels/data/ship.obj"));
-		instance = new ModelInstance(model);
-*/
-
-		/*
-		ModelBuilder modelBuilder = new ModelBuilder();
-		model = modelBuilder.createBox(5f, 5f, 5f,
-				new Material(ColorAttribute.createDiffuse(Color.GREEN)),
-				VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
-		instance = new ModelInstance(model);
-		*/
-
-
-
 		camController = new CameraInputController(cam);
 		Gdx.input.setInputProcessor(camController);
 
-		assets = new AssetManager();
-
-		assets.load("loadmodels/data/invaders.g3dj", Model.class);
-
-		loading = true;
-
+		ModelLoader modelLoader = new G3dModelLoader(new JsonReader());
+		ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("loadmodels/data/invaders.g3dj"));
+		model = new Model(modelData, new TextureProvider.FileTextureProvider());
+		doneLoading();
 	}
 
 
@@ -91,7 +75,6 @@ public class MyGdxGame implements ApplicationListener {
 	}
 
 	private void doneLoading() {
-		Model model = assets.get("loadmodels/data/invaders.g3dj", Model.class);
 		for (int i = 0; i < model.nodes.size; i++) {
 			String id = model.nodes.get(i).id;
 			ModelInstance instance = new ModelInstance(model, id);
@@ -122,14 +105,16 @@ public class MyGdxGame implements ApplicationListener {
 			}
 		}
 
-
-		loading = false;
+		for (ModelInstance block : blocks) {
+			float r = 0.5f + 0.5f * (float)Math.random();
+			float g = 0.5f + 0.5f * (float)Math.random();
+			float b = 0.5f + 0.5f * (float)Math.random();
+			block.materials.get(0).set(ColorAttribute.createDiffuse(r, g, b, 1));
+		}
 	}
 
 	@Override
 	public void render() {
-		if (loading && assets.update())
-			doneLoading();
 
 		camController.update();
 
@@ -159,7 +144,7 @@ public class MyGdxGame implements ApplicationListener {
 	public void dispose() {
 		modelBatch.dispose();
 		instances.clear();
-		assets.dispose();
+		model.dispose();
 	}
 
 }

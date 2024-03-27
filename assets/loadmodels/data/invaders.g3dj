@@ -4593,52 +4593,7 @@
 		{
 			"id": "block_default", 
 			"ambient": [ 0.050876,  0.050876,  0.050876], 
-			"diffuse": [ 1.000000,  0.400000,  1.000000], 
-			"emissive": [ 0.000000,  0.000000,  0.000000], 
-			"opacity":  1.000000, 
-			"specular": [ 0.000000,  0.000000,  1.000000], 
-			"shininess":  0.000000
-		}, 
-		{
-			"id": "block_default.001", 
-			"ambient": [ 0.050876,  0.050876,  0.050876], 
-			"diffuse": [ 0.900000,  0.500000,  1.000000], 
-			"emissive": [ 0.000000,  0.000000,  0.000000], 
-			"opacity":  1.000000, 
-			"specular": [ 0.000000,  0.000000,  1.000000], 
-			"shininess":  0.000000
-		}, 
-		{
-			"id": "block_default.002", 
-			"ambient": [ 0.050876,  0.050876,  0.050876], 
-			"diffuse": [ 0.800000,  0.600000,  1.000000], 
-			"emissive": [ 0.000000,  0.000000,  0.000000], 
-			"opacity":  1.000000, 
-			"specular": [ 0.000000,  0.000000,  1.000000], 
-			"shininess":  0.000000
-		}, 
-		{
-			"id": "block_default.003", 
-			"ambient": [ 0.050876,  0.050876,  0.050876], 
-			"diffuse": [ 0.700000,  0.700000,  1.000000], 
-			"emissive": [ 0.000000,  0.000000,  0.000000], 
-			"opacity":  1.000000, 
-			"specular": [ 0.000000,  0.000000,  1.000000], 
-			"shininess":  0.000000
-		}, 
-		{
-			"id": "block_default.004", 
-			"ambient": [ 0.050876,  0.050876,  0.050876], 
-			"diffuse": [ 0.600000,  0.800000,  1.000000], 
-			"emissive": [ 0.000000,  0.000000,  0.000000], 
-			"opacity":  1.000000, 
-			"specular": [ 0.000000,  0.000000,  1.000000], 
-			"shininess":  0.000000
-		}, 
-		{
-			"id": "block_default.005", 
-			"ambient": [ 0.050876,  0.050876,  0.050876], 
-			"diffuse": [ 0.500000,  0.900000,  1.000000], 
+			"diffuse": [ 0.000000,  0.000000,  1.000000], 
 			"emissive": [ 0.000000,  0.000000,  0.000000], 
 			"opacity":  1.000000, 
 			"specular": [ 0.000000,  0.000000,  1.000000], 
@@ -5239,7 +5194,7 @@
 			"parts": [
 				{
 					"meshpartid": "cube1.002_part1", 
-					"materialid": "block_default.001"
+					"materialid": "block_default"
 				}
 			]
 		}, 
@@ -5250,7 +5205,7 @@
 			"parts": [
 				{
 					"meshpartid": "cube1.003_part1", 
-					"materialid": "block_default.002"
+					"materialid": "block_default"
 				}
 			]
 		}, 
@@ -5261,7 +5216,7 @@
 			"parts": [
 				{
 					"meshpartid": "cube1.004_part1", 
-					"materialid": "block_default.003"
+					"materialid": "block_default"
 				}
 			]
 		}, 
@@ -5272,7 +5227,7 @@
 			"parts": [
 				{
 					"meshpartid": "cube1.005_part1", 
-					"materialid": "block_default.004"
+					"materialid": "block_default"
 				}
 			]
 		}, 
@@ -5283,7 +5238,7 @@
 			"parts": [
 				{
 					"meshpartid": "cube1.006_part1", 
-					"materialid": "block_default.005"
+					"materialid": "block_default"
 				}
 			]
 		}, 
