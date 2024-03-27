@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
+import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector3;
@@ -50,7 +51,7 @@ public class MyGdxGame implements ApplicationListener {
 
 
 		cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		cam.position.set(0f, 7f, 10f);
+		cam.position.set(0f, 7f, -10f);
 		cam.lookAt(0,0,0);
 		cam.near = 1f;
 		cam.far = 300f;
@@ -77,10 +78,7 @@ public class MyGdxGame implements ApplicationListener {
 
 		assets = new AssetManager();
 
-		assets.load("loadmodels/data/ship.obj", Model.class);
-		assets.load("loadmodels/data/block.obj", Model.class);
-		assets.load("loadmodels/data/invader.obj", Model.class);
-		assets.load("loadmodels/data/spacesphere.obj", Model.class);
+		assets.load("loadmodels/data/invaders.g3dj", Model.class);
 
 		loading = true;
 
@@ -93,29 +91,36 @@ public class MyGdxGame implements ApplicationListener {
 	}
 
 	private void doneLoading() {
-		ship = new ModelInstance(assets.get("loadmodels/data/ship.obj", Model.class));
-		ship.transform.setToRotation(Vector3.Y, 180).trn(0, 0, 6f);
-		instances.add(ship);
+		Model model = assets.get("loadmodels/data/invaders.g3dj", Model.class);
+		for (int i = 0; i < model.nodes.size; i++) {
+			String id = model.nodes.get(i).id;
+			ModelInstance instance = new ModelInstance(model, id);
+			Node node = instance.getNode(id);
 
-		Model blockModel = assets.get("loadmodels/data/block.obj", Model.class);
-		for (float x = -5f; x <= 5f; x += 2f) {
-			ModelInstance block = new ModelInstance(blockModel);
-			block.transform.setToTranslation(x, 0, 3f);
-			instances.add(block);
-			blocks.add(block);
-		}
+			instance.transform.set(node.globalTransform);
 
-		Model invaderModel = assets.get("loadmodels/data/invader.obj", Model.class);
-		for (float x = -5f; x <= 5f; x += 2f) {
-			for (float z = -8f; z <= 0f; z += 2f) {
-				ModelInstance invader = new ModelInstance(invaderModel);
-				invader.transform.setToTranslation(x, 0, z);
-				instances.add(invader);
-				invaders.add(invader);
+
+
+			node.translation.set(0,0,0);
+			node.scale.set(1,1,1);
+			node.rotation.idt();
+			instance.calculateTransforms();
+
+			if (id.equals("space")) {
+				space = instance;
+				continue;
+			}
+
+			instances.add(instance);
+
+			if (id.equals("ship")) {
+				ship = instance;
+			}else if (id.startsWith("block")) {
+				blocks.add(instance);
+			}else if (id.startsWith("invader")) {
+				invaders.add(instance);
 			}
 		}
-
-		space = new ModelInstance(assets.get("loadmodels/data/spacesphere.obj", Model.class));
 
 
 		loading = false;
